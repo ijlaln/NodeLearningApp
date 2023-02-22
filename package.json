@@ -1,0 +1,73 @@
+{
+  "name": "MySecondLearningApp",
+  "version": "0.0.1",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "description": "My Second Learning App",
+  "engines": {
+    "node": "^16"
+  },
+  "dependencies": {
+    "@sap-cloud-sdk/http-client": "^2.5",
+    "@sap/audit-logging": "^5",
+    "@sap/cds": "^6.1",
+    "@sap/xssec": "^3",
+    "debug": "^4.3",
+    "express": "^4",
+    "hdb": "^0.19",
+    "passport": "^0.6.0",
+    "sqlite3": "^5.1.4"
+  },
+  "devDependencies": {
+    "@sap/eslint-plugin-ui5-jsdocs": "^2.0.5",
+    "@sap/ux-specification": "^1.102.17",
+    "@sapui5/ts-types": "^1.92.2",
+    "eslint": "^7.32.0"
+  },
+  "sapux": [
+    "app/resources/fiori",
+    "app/customercontracts"
+  ],
+  "scripts": {
+    "start": "cds run",
+    "watch-customercontracts": "cds watch --open customercontracts/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "restrict_all_services": false
+      },
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": "db.sqlite"
+        }
+      }
+    }
+  }
+}

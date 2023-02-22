@@ -1,0 +1,248 @@
+{
+    "_version": "1.49.0",
+    "sap.app": {
+        "id": "sap.fe.mysecondapp.customercontracts",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.9.0",
+            "toolsId": "743448c4-6bda-416f-9f18-d6944ba9fc29"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/catalog/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.110.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.fe.mysecondapp.customercontracts.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "CustomerContractList",
+                    "target": [
+                        "CustomerContractList"
+                    ]
+                },
+                {
+                    "pattern": "CustomerContract({key}):?query:",
+                    "name": "CustomerContractObjectPage",
+                    "target": [
+                        "CustomerContractList",
+                        "CustomerContractObjectPage"
+                    ]
+                },
+                {
+                    "pattern": "CustomerContract({key})/salesOrders({key2}):?query:",
+                    "name": "SalesOrdersObjectPage",
+                    "target": [
+                        "CustomerContractList",
+                        "CustomerContractObjectPage",
+                        "SalesOrdersObjectPage"
+                    ]
+                },
+                {
+                    "pattern": "CustomerContract({key})/salesOrders({key2})/salesOrderItems({key3}):?query:",
+                    "name": "SalesOrderItemsObjectPage_salesOrderItems",
+                    "target": [
+                        "SalesOrderItemsObjectPage_salesOrderItems"
+                    ]
+                }
+            ],
+            "targets": {
+                "CustomerContractList": {
+                    "type": "Component",
+                    "id": "CustomerContractList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "CustomerContract",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "CustomerContract": {
+                                    "detail": {
+                                        "route": "CustomerContractObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "beginColumnPages",
+                    "contextPattern": ""
+                },
+                "CustomerContractObjectPage": {
+                    "type": "Component",
+                    "id": "CustomerContractObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "CustomerContract",
+                            "navigation": {
+                                "salesOrders": {
+                                    "detail": {
+                                        "route": "SalesOrdersObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "salesOrders/@com.sap.vocabularies.UI.v1.LineItem#SalesOrders": {
+                                    "tableSettings": {
+                                        "enableFullScreen": true,
+                                        "selectAll": true,
+                                        "type": "GridTable",
+                                        "creationMode": {
+                                            "createAtEnd": true,
+                                            "name": "CreationRow"
+                                        }
+                                    }
+                                }
+                            },
+                            "content": {
+                                "body": {
+                                    "sections": {
+                                        "MyFirstCustomSection": {
+                                            "template": "sap.fe.mysecondapp.customercontracts.ext.fragment.MyFirstCustomSection",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "GeneratedFacet1"
+                                            },
+                                            "title": "My First Custom Section",
+                                            "type": "XMLFragment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "midColumnPages",
+                    "contextPattern": "/CustomerContract({key})"
+                },
+                "SalesOrdersObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrdersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SalesOrders",
+                            "navigation": {
+                                "salesOrderItems": {
+                                    "detail": {
+                                        "route": "SalesOrderItemsObjectPage_salesOrderItems"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "endColumnPages",
+                    "contextPattern": "/CustomerContract({key})/salesOrders({key2})"
+                },
+                "SalesOrderItemsObjectPage_salesOrderItems": {
+                    "type": "Component",
+                    "id": "SalesOrderItemsObjectPage_salesOrderItems",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "entitySet": "SalesOrderItems",
+                            "navigation": {}
+                        }
+                    },
+                    "controlAggregation": "endColumnPages",
+                    "contextPattern": "/CustomerContract({key})/salesOrders({key2})/salesOrderItems({key3})"
+                }
+            },
+            "config": {
+                "flexibleColumnLayout": {
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                    "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+                },
+                "routerClass": "sap.f.routing.Router"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {}
+            }
+        },
+        "rootView": {
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+            "type": "XML",
+            "async": true,
+            "id": "appRootView"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}
